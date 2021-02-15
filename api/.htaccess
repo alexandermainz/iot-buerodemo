@@ -1,0 +1,9 @@
+RewriteEngine On
+
+# Redirect all requests not pointing at an actual file to index.php
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule . index.php [L]
+
+# Do not strip Authorization Header
+RewriteCond %{HTTP:Authorization} ^(.*)
+RewriteRule .* - [e=HTTP_AUTHORIZATION:%1]

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="de">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+        <title>IoT Demo</title>
+        <script language="JavaScript">
+            function send() {
+                var val = document.getElementById('name').value + ': ' + document.getElementById('text').value;
+                console.log("Eingabe: " + val);
+                var xhttp = new XMLHttpRequest();
+                xhttp.onreadystatechange = function() {
+                    if (this.readyState == 4) {
+                        if (this.status == 200)
+                            document.getElementById("resultmsg").innerHTML = "Nachricht gesendet!";
+                        else
+                            document.getElementById("resultmsg").innerHTML = "Nachricht konnte leider nicht übernittelt werden, der Server antwortete nicht. Sorry!";
+                    }
+                };
+                xhttp.open("POST", "http://api.net-things.de/leavemessage", true);
+                xhttp.setRequestHeader("Content-type", "text/plain");
+                xhttp.setRequestHeader("Origin", "localhost");
+                xhttp.send(val);
+            }
+        </script>
+    </head>
+    <body>
+        <h2>Gib hier Deine persönliche Nachricht ein</h2>
+        <p>Umlaute und Sonderzeichen können leider nicht dargestellt werden.</p>
+        <p>Maximale Länge des Namens ist 10 Zeichen, maximale Länge der Nachricht ist 30 Zeichen.</p>
+        <form method="POST" action="#">
+            <label for="name">Name:</label>
+            <input name="name" id="name" maxlength="10" size="10"><br>
+            <label for="text">Nachricht:</label>
+            <input name="text" id="text" maxlength="30" size="12"><br><br>
+            <input type="button" value="Absenden" onclick="send();">
+        </form>
+        <br><br>
+        <div id="resultmsg"></div>
+    </body>
+</html>
